@@ -11,10 +11,13 @@
     "url": "git+https://github.com/gawainhewitt/app-style-web-setup.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Gawain Hewitt",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/gawainhewitt/app-style-web-setup/issues"
   },
-  "homepage": "https://github.com/gawainhewitt/app-style-web-setup#readme"
+  "homepage": "https://github.com/gawainhewitt/app-style-web-setup#readme",
+  "dependencies": {
+    "esbuild": "^0.14.43"
+  }
 }
