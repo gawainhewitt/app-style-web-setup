@@ -35,6 +35,21 @@ class EventBinders {
       handler(e);
     })
   }
+
+  bindTouchStart(handler) {
+    document.addEventListener('touchstart', handler);
+  }
+
+  bindTouchEnd(handler) {
+    document.addEventListener('touchend', handler);
+  }
+
+  bindTouchCancel(handler) {
+    document.addEventListener('touchcancel', handler);
+  }
+
+  bindTouchMove(handler) {
+    document.addEventListener('touchmove', handler);
   }
 }
 
