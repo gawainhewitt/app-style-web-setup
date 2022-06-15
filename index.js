@@ -1,5 +1,5 @@
-const View = require('./view');
-const Controller = require('./controller');
+const EventBinders = require('./eventBinders');
+const EventHandlers = require('./eventHandlers');
 
-const view = new View;
-const controller = new Controller(view);
+const eventBinders = new EventBinders;
+const eventHandlers = new EventHandlers(eventBinders);

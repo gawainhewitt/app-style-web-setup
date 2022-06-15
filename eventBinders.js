@@ -1,4 +1,4 @@
-class View {
+class EventBinders {
 
   constructor() {
     this.mouseEnter = document.querySelector("#mouseEnter");
@@ -35,6 +35,7 @@ class View {
       handler(e);
     })
   }
+  }
 }
 
-module.exports = View;
+module.exports = EventBinders;

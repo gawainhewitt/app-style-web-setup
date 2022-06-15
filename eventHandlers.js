@@ -1,21 +1,21 @@
-class Controller {
+class EventHandlers {
   
-  constructor(view) {
-    this.view = view;
+  constructor(binder) {
+    this.binder = binder;
     this.mouseEnterCount = 0;
     this.buttonCount = 0;
     this.mouseDown = false;
-    this.view.bindMouseEnter(this.mouseEnterFunction);
-    this.view.bindSelectStart(this.disableSelect);
-    this.view.bindMouseDown(this.registerMouseDown);
-    this.view.bindMouseUp(this.registerMouseUp);
-    this.view.bindButton(this.buttonFunction);
+    this.binder.bindMouseEnter(this.mouseEnterFunction);
+    this.binder.bindSelectStart(this.disableSelect);
+    this.binder.bindMouseDown(this.registerMouseDown);
+    this.binder.bindMouseUp(this.registerMouseUp);
+    this.binder.bindButton(this.buttonFunction);
   }
 
   mouseEnterFunction = () => {
     if(this.mouseDown){
       this.mouseEnterCount += 1;
-      this.view.mouseEnterText.innerHTML = `mouseEnter ${this.mouseEnterCount}`;
+      this.binder.mouseEnterText.innerHTML = `mouseEnter ${this.mouseEnterCount}`;
     }
   }
   
@@ -39,4 +39,4 @@ class Controller {
   }
 }
 
-module.exports = Controller;
+module.exports = EventHandlers;

@@ -4,10 +4,10 @@
     return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
   };
 
-  // view.js
-  var require_view = __commonJS({
-    "view.js"(exports, module) {
-      var View2 = class {
+  // eventBinders.js
+  var require_eventBinders = __commonJS({
+    "eventBinders.js"(exports, module) {
+      var EventBinders2 = class {
         constructor() {
           this.mouseEnter = document.querySelector("#mouseEnter");
           this.mouseEnterText = document.querySelector("#mouseEnterText");
@@ -39,29 +39,29 @@
           });
         }
       };
-      module.exports = View2;
+      module.exports = EventBinders2;
     }
   });
 
-  // controller.js
-  var require_controller = __commonJS({
-    "controller.js"(exports, module) {
-      var Controller2 = class {
-        constructor(view2) {
-          this.view = view2;
+  // eventHandlers.js
+  var require_eventHandlers = __commonJS({
+    "eventHandlers.js"(exports, module) {
+      var EventHandlers2 = class {
+        constructor(binder) {
+          this.binder = binder;
           this.mouseEnterCount = 0;
           this.buttonCount = 0;
           this.mouseDown = false;
-          this.view.bindMouseEnter(this.mouseEnterFunction);
-          this.view.bindSelectStart(this.disableSelect);
-          this.view.bindMouseDown(this.registerMouseDown);
-          this.view.bindMouseUp(this.registerMouseUp);
-          this.view.bindButton(this.buttonFunction);
+          this.binder.bindMouseEnter(this.mouseEnterFunction);
+          this.binder.bindSelectStart(this.disableSelect);
+          this.binder.bindMouseDown(this.registerMouseDown);
+          this.binder.bindMouseUp(this.registerMouseUp);
+          this.binder.bindButton(this.buttonFunction);
         }
         mouseEnterFunction = () => {
           if (this.mouseDown) {
             this.mouseEnterCount += 1;
-            this.view.mouseEnterText.innerHTML = `mouseEnter ${this.mouseEnterCount}`;
+            this.binder.mouseEnterText.innerHTML = `mouseEnter ${this.mouseEnterCount}`;
           }
         };
         buttonFunction = () => {
@@ -80,13 +80,13 @@
           this.mouseDown = false;
         };
       };
-      module.exports = Controller2;
+      module.exports = EventHandlers2;
     }
   });
 
   // index.js
-  var View = require_view();
-  var Controller = require_controller();
-  var view = new View();
-  var controller = new Controller(view);
+  var EventBinders = require_eventBinders();
+  var EventHandlers = require_eventHandlers();
+  var eventBinders = new EventBinders();
+  var eventHandlers = new EventHandlers(eventBinders);
 })();
