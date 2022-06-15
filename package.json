@@ -2,9 +2,9 @@
   "name": "app-style-web-setup",
   "version": "1.0.0",
   "description": "A template for setting up a web page for an app style user experience",
-  "main": "main.js",
+  "main": "index.js",
   "scripts": {
-    "build": "rm -rf ./dist/* && cp ./main.html ./dist/main.html && cp ./main.js ./dist/main.js && cp ./main.css ./dist/main.css"
+    "build": "rm -rf ./dist/* && cp ./index.html ./dist/index.html && cp ./index.js ./dist/index.js && cp ./main.css ./dist/main.css"
   },
   "repository": {
     "type": "git",
