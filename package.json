@@ -1,0 +1,20 @@
+{
+  "name": "app-style-web-setup",
+  "version": "1.0.0",
+  "description": "A template for setting up a web page for an app style user experience",
+  "main": "main.js",
+  "scripts": {
+    "build": "rm -rf ./dist/* && cp ./main.html ./dist/main.html && cp ./main.js ./dist/main.js && cp ./main.css ./dist/main.css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gawainhewitt/app-style-web-setup.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gawainhewitt/app-style-web-setup/issues"
+  },
+  "homepage": "https://github.com/gawainhewitt/app-style-web-setup#readme"
+}
