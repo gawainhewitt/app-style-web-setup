@@ -4,7 +4,7 @@
   "description": "A template for setting up a web page for an app style user experience",
   "main": "index.js",
   "scripts": {
-    "build": "rm -rf ./dist/* && cp ./index.html ./dist/index.html && cp ./index.js ./dist/index.js && cp ./main.css ./dist/main.css"
+    "build": "rm -rf ./dist/* && cp ./index.html ./dist/index.html && cp ./main.css ./dist/main.css && esbuild index.js --bundle  --outfile=./dist/bundle.js"
   },
   "repository": {
     "type": "git",
