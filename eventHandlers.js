@@ -59,6 +59,7 @@ class EventHandlers {
     // console.log(touches);
     this.ongoingTouches.push(this.#copyTouch(touches[0]));
     // console.log(this.ongoingTouches);
+    this.#showElement(this.ongoingTouches);
   }
 
   #handleTouchEnd = (e) => {

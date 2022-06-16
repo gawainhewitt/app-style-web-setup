@@ -4,7 +4,7 @@ class EventBinders {
     this.mouseEnter = document.querySelector("#mouseEnter");
     this.mouseEnterText = document.querySelector('#mouseEnterText');
     this.button = document.querySelector("#button");
-    this.middleBox = document.querySelector("#middle-box");
+    this.wrapper = document.querySelector("#wrapper");
   }
 
   bindMouseEnter(handler) {
@@ -38,19 +38,19 @@ class EventBinders {
   }
 
   bindTouchStart(handler) {
-    this.middleBox.addEventListener('touchstart', handler);
+    this.wrapper.addEventListener('touchstart', handler);
   }
 
   bindTouchEnd(handler) {
-    this.middleBox.addEventListener('touchend', handler);
+    this.wrapper.addEventListener('touchend', handler);
   }
 
   bindTouchMove(handler) {
-    this.middleBox.addEventListener('touchmove', handler);
+    this.wrapper.addEventListener('touchmove', handler);
   }
 
   bindTouchCancel(handler) {
-    this.middleBox.addEventListener('touchcancel', handler);
+    this.wrapper.addEventListener('touchcancel', handler);
   }
 
 }
