@@ -1,9 +1,12 @@
 class TouchHandler {
-  ongoingTouches = [];
+
   constructor(eventBinder) {
     this.eventBinder = eventBinder;
+    this.ongoingTouches = [];
+    this.endedTouches = [];
     this.eventBinder.bindTouchStart(this.#handleTouchStart);
     this.eventBinder.bindTouchEnd(this.#handleTouchEnd);
+    this.eventBinder.bindTouchMove(this.#handleTouchMove);
   }
 
   #handleTouchStart = (e) => {
@@ -12,7 +15,7 @@ class TouchHandler {
     let touches = e.changedTouches;
     console.log(touches);
     this.ongoingTouches.push(this.#copyTouch(touches[0]));
-    console.log(this.ongoingTouches);
+    // console.log(this.ongoingTouches);
   }
 
   #handleTouchEnd = (e) => {
@@ -29,16 +32,18 @@ class TouchHandler {
         console.log("can't figure out which touch to end");
       }
     }
+    console.log(this.ongoingTouches);
   }
 
   #handleTouchMove = (e) => {
     e.preventDefault();
     console.log("touch move");
     let touches = e.changedTouches;
-    for (let i = 0; i < _touches.length; i++) {
+    for (let i = 0; i < touches.length; i++) {
       let idx = this.#ongoingTouchIndexById(touches[i].identifier); 
       if (idx >= 0) { // did we get a match?
-        this.ongoingTouches.splice(idx, 1, this.#copyTouch(touches[i]));  
+        this.ongoingTouches.splice(idx, 1, this.#copyTouch(touches[i]));
+        // console.log(this.#copyTouch(touches[i]));  
       } else { // no match
         console.log("can't figure out which touch to continue");
       }

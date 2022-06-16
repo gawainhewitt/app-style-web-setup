@@ -40,10 +40,13 @@
           });
         }
         bindTouchStart(handler) {
-          wrapper.addEventListener("touchstart", handler);
+          this.wrapper.addEventListener("touchstart", handler);
         }
         bindTouchEnd(handler) {
           this.wrapper.addEventListener("touchend", handler);
+        }
+        bindTouchMove(handler) {
+          this.wrapper.addEventListener("touchmove", handler);
         }
       };
       module.exports = EventBinders2;
@@ -95,11 +98,13 @@
   var require_touchHandler = __commonJS({
     "touchHandler.js"(exports, module) {
       var TouchHandler2 = class {
-        ongoingTouches = [];
         constructor(eventBinder) {
           this.eventBinder = eventBinder;
+          this.ongoingTouches = [];
+          this.endedTouches = [];
           this.eventBinder.bindTouchStart(this.#handleTouchStart);
           this.eventBinder.bindTouchEnd(this.#handleTouchEnd);
+          this.eventBinder.bindTouchMove(this.#handleTouchMove);
         }
         #handleTouchStart = (e) => {
           e.preventDefault();
@@ -122,15 +127,17 @@
               console.log("can't figure out which touch to end");
             }
           }
+          console.log(this.ongoingTouches);
         };
         #handleTouchMove = (e) => {
           e.preventDefault();
           console.log("touch move");
           let touches = e.changedTouches;
-          for (let i = 0; i < _touches.length; i++) {
+          for (let i = 0; i < touches.length; i++) {
             let idx = this.#ongoingTouchIndexById(touches[i].identifier);
             if (idx >= 0) {
               this.ongoingTouches.splice(idx, 1, this.#copyTouch(touches[i]));
+              console.log(this.#copyTouch(touches[i]));
             } else {
               console.log("can't figure out which touch to continue");
             }

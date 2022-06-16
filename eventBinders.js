@@ -38,20 +38,22 @@ class EventBinders {
   }
 
   bindTouchStart(handler) {
-    wrapper.addEventListener('touchstart', handler);
+    this.wrapper.addEventListener('touchstart', handler);
   }
 
   bindTouchEnd(handler) {
     this.wrapper.addEventListener('touchend', handler);
   }
 
+  bindTouchMove(handler) {
+    this.wrapper.addEventListener('touchmove', handler);
+  }
+
   // bindTouchCancel(handler) {
   //   document.addEventListener('touchcancel', handler);
   // }
 
-  // bindTouchMove(handler) {
-  //   document.addEventListener('touchmove', handler);
-  // }
 }
+ 
 
 module.exports = EventBinders;
