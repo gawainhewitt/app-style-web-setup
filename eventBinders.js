@@ -4,6 +4,7 @@ class EventBinders {
     this.mouseEnter = document.querySelector("#mouseEnter");
     this.mouseEnterText = document.querySelector('#mouseEnterText');
     this.button = document.querySelector("#button");
+    this.wrapper = document.querySelector("#wrapper");
   }
 
   bindMouseEnter(handler) {
@@ -37,7 +38,7 @@ class EventBinders {
   }
 
   bindTouchStart(handler) {
-    document.addEventListener('touchstart', handler);
+    wrapper.addEventListener('touchstart', handler);
   }
 
   // bindTouchEnd(handler) {

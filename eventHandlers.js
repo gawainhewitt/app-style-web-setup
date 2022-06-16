@@ -1,21 +1,21 @@
 class EventHandlers {
   
-  constructor(binder) {
-    this.binder = binder;
+  constructor(eventBinder) {
+    this.eventBinder = eventBinder;
     this.mouseEnterCount = 0;
     this.buttonCount = 0;
     this.mouseDown = false;
-    this.binder.bindMouseEnter(this.mouseEnterFunction);
-    this.binder.bindSelectStart(this.disableSelect);
-    this.binder.bindMouseDown(this.registerMouseDown);
-    this.binder.bindMouseUp(this.registerMouseUp);
-    this.binder.bindButton(this.buttonFunction);
+    this.eventBinder.bindMouseEnter(this.handleMouseEnter);
+    this.eventBinder.bindSelectStart(this.disableSelect);
+    this.eventBinder.bindMouseDown(this.registerMouseDown);
+    this.eventBinder.bindMouseUp(this.registerMouseUp);
+    this.eventBinder.bindButton(this.buttonFunction);
   }
 
-  mouseEnterFunction = () => {
+  handleMouseEnter = () => {
     if(this.mouseDown){
       this.mouseEnterCount += 1;
-      this.binder.mouseEnterText.innerHTML = `mouseEnter ${this.mouseEnterCount}`;
+      this.eventBinder.mouseEnterText.innerHTML = `mouseEnter ${this.mouseEnterCount}`;
     }
   }
   

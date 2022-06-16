@@ -12,6 +12,7 @@
           this.mouseEnter = document.querySelector("#mouseEnter");
           this.mouseEnterText = document.querySelector("#mouseEnterText");
           this.button = document.querySelector("#button");
+          this.wrapper = document.querySelector("#wrapper");
         }
         bindMouseEnter(handler) {
           this.mouseEnter.addEventListener("mouseenter", () => {
@@ -38,6 +39,9 @@
             handler(e);
           });
         }
+        bindTouchStart(handler) {
+          wrapper.addEventListener("touchstart", handler);
+        }
       };
       module.exports = EventBinders2;
     }
@@ -47,21 +51,21 @@
   var require_eventHandlers = __commonJS({
     "eventHandlers.js"(exports, module) {
       var EventHandlers2 = class {
-        constructor(binder) {
-          this.binder = binder;
+        constructor(eventBinder) {
+          this.eventBinder = eventBinder;
           this.mouseEnterCount = 0;
           this.buttonCount = 0;
           this.mouseDown = false;
-          this.binder.bindMouseEnter(this.mouseEnterFunction);
-          this.binder.bindSelectStart(this.disableSelect);
-          this.binder.bindMouseDown(this.registerMouseDown);
-          this.binder.bindMouseUp(this.registerMouseUp);
-          this.binder.bindButton(this.buttonFunction);
+          this.eventBinder.bindMouseEnter(this.handleMouseEnter);
+          this.eventBinder.bindSelectStart(this.disableSelect);
+          this.eventBinder.bindMouseDown(this.registerMouseDown);
+          this.eventBinder.bindMouseUp(this.registerMouseUp);
+          this.eventBinder.bindButton(this.buttonFunction);
         }
-        mouseEnterFunction = () => {
+        handleMouseEnter = () => {
           if (this.mouseDown) {
             this.mouseEnterCount += 1;
-            this.binder.mouseEnterText.innerHTML = `mouseEnter ${this.mouseEnterCount}`;
+            this.eventBinder.mouseEnterText.innerHTML = `mouseEnter ${this.mouseEnterCount}`;
           }
         };
         buttonFunction = () => {
@@ -84,9 +88,28 @@
     }
   });
 
+  // touchHandler.js
+  var require_touchHandler = __commonJS({
+    "touchHandler.js"(exports, module) {
+      var TouchHandler2 = class {
+        constructor(eventBinder) {
+          this.eventBinder = eventBinder;
+          this.eventBinder.bindTouchStart(this.handleTouchStart);
+        }
+        handleTouchStart = (e) => {
+          e.preventDefault();
+          console.log("touch start");
+        };
+      };
+      module.exports = TouchHandler2;
+    }
+  });
+
   // index.js
   var EventBinders = require_eventBinders();
   var EventHandlers = require_eventHandlers();
+  var TouchHandler = require_touchHandler();
   var eventBinders = new EventBinders();
   var eventHandlers = new EventHandlers(eventBinders);
+  var touchHandler = new TouchHandler(eventBinders);
 })();
