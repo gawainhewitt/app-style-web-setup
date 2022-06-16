@@ -62,6 +62,7 @@
       var EventHandlers2 = class {
         constructor(eventBinder) {
           this.eventBinder = eventBinder;
+          this.ongoingTouches = [];
           this.mouseEnterCount = 0;
           this.buttonCount = 0;
           this.mouseDown = false;
@@ -70,6 +71,10 @@
           this.eventBinder.bindMouseDown(this.registerMouseDown);
           this.eventBinder.bindMouseUp(this.registerMouseUp);
           this.eventBinder.bindButton(this.buttonFunction);
+          this.eventBinder.bindTouchStart(this.#handleTouchStart);
+          this.eventBinder.bindTouchEnd(this.#handleTouchEnd);
+          this.eventBinder.bindTouchMove(this.#handleTouchMove);
+          this.eventBinder.bindTouchCancel(this.#handleCancel);
         }
         handleMouseEnter = () => {
           if (this.mouseDown) {
@@ -92,29 +97,10 @@
         registerMouseUp = () => {
           this.mouseDown = false;
         };
-      };
-      module.exports = EventHandlers2;
-    }
-  });
-
-  // touchHandler.js
-  var require_touchHandler = __commonJS({
-    "touchHandler.js"(exports, module) {
-      var TouchHandler2 = class {
-        constructor(eventBinder) {
-          this.eventBinder = eventBinder;
-          this.ongoingTouches = [];
-          this.endedTouches = [];
-          this.eventBinder.bindTouchStart(this.#handleTouchStart);
-          this.eventBinder.bindTouchEnd(this.#handleTouchEnd);
-          this.eventBinder.bindTouchMove(this.#handleTouchMove);
-          this.eventBinder.bindTouchCancel(this.#handleCancel);
-        }
         #handleTouchStart = (e) => {
           e.preventDefault();
           console.log("touch start");
           let touches = e.changedTouches;
-          console.log(touches);
           this.ongoingTouches.push(this.#copyTouch(touches[0]));
         };
         #handleTouchEnd = (e) => {
@@ -140,7 +126,8 @@
             let idx = this.#ongoingTouchIndexById(touches[i].identifier);
             if (idx >= 0) {
               this.ongoingTouches.splice(idx, 1, this.#copyTouch(touches[i]));
-              console.log(this.#copyTouch(touches[i]));
+              let el = document.elementFromPoint(this.ongoingTouches[idx].clientX, this.ongoingTouches[idx].clientY);
+              console.log(`element = ${el.id}`);
             } else {
               console.log("can't figure out which touch to continue");
             }
@@ -155,10 +142,10 @@
             this.ongoingTouches.splice(idx, 1);
           }
         };
-        #copyTouch({ identifier, clientX, clientY }) {
+        #copyTouch = ({ identifier, clientX, clientY }) => {
           return { identifier, clientX, clientY };
-        }
-        #ongoingTouchIndexById(idToFind) {
+        };
+        #ongoingTouchIndexById = (idToFind) => {
           for (let i = 0; i < this.ongoingTouches.length; i++) {
             let id = this.ongoingTouches[i].identifier;
             if (id == idToFind) {
@@ -166,17 +153,15 @@
             }
           }
           return -1;
-        }
+        };
       };
-      module.exports = TouchHandler2;
+      module.exports = EventHandlers2;
     }
   });
 
   // index.js
   var EventBinders = require_eventBinders();
   var EventHandlers = require_eventHandlers();
-  var TouchHandler = require_touchHandler();
   var eventBinders = new EventBinders();
   var eventHandlers = new EventHandlers(eventBinders);
-  var touchHandler = new TouchHandler(eventBinders);
 })();
