@@ -42,6 +42,9 @@
         bindTouchStart(handler) {
           wrapper.addEventListener("touchstart", handler);
         }
+        bindTouchEnd(handler) {
+          this.wrapper.addEventListener("touchend", handler);
+        }
       };
       module.exports = EventBinders2;
     }
@@ -92,21 +95,58 @@
   var require_touchHandler = __commonJS({
     "touchHandler.js"(exports, module) {
       var TouchHandler2 = class {
-        #ongoingTouches = [];
+        ongoingTouches = [];
         constructor(eventBinder) {
           this.eventBinder = eventBinder;
-          this.eventBinder.bindTouchStart(this.handleTouchStart);
+          this.eventBinder.bindTouchStart(this.#handleTouchStart);
+          this.eventBinder.bindTouchEnd(this.#handleTouchEnd);
         }
-        handleTouchStart = (e) => {
+        #handleTouchStart = (e) => {
           e.preventDefault();
           console.log("touch start");
           let touches = e.changedTouches;
           console.log(touches);
-          this.#ongoingTouches.push(this.#copyTouch(touches[0]));
-          console.log(this.#ongoingTouches);
+          this.ongoingTouches.push(this.#copyTouch(touches[0]));
+          console.log(this.ongoingTouches);
+        };
+        #handleTouchEnd = (e) => {
+          e.preventDefault();
+          let touches = e.changedTouches;
+          console.log("touch end");
+          for (let i = 0; i < touches.length; i++) {
+            let idx = this.#ongoingTouchIndexById(touches[i].identifier);
+            if (idx >= 0) {
+              console.log("touchend " + idx);
+              this.ongoingTouches.splice(idx, 1);
+            } else {
+              console.log("can't figure out which touch to end");
+            }
+          }
+        };
+        #handleTouchMove = (e) => {
+          e.preventDefault();
+          console.log("touch move");
+          let touches = e.changedTouches;
+          for (let i = 0; i < _touches.length; i++) {
+            let idx = this.#ongoingTouchIndexById(touches[i].identifier);
+            if (idx >= 0) {
+              this.ongoingTouches.splice(idx, 1, this.#copyTouch(touches[i]));
+            } else {
+              console.log("can't figure out which touch to continue");
+            }
+          }
         };
         #copyTouch({ identifier, clientX, clientY }) {
           return { identifier, clientX, clientY };
+        }
+        #ongoingTouchIndexById(idToFind) {
+          for (let i = 0; i < this.ongoingTouches.length; i++) {
+            let id = this.ongoingTouches[i].identifier;
+            if (id == idToFind) {
+              return i;
+            }
+          }
+          return -1;
         }
       };
       module.exports = TouchHandler2;
