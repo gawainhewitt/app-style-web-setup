@@ -12,13 +12,8 @@ class EventHandlers {
     this.binder.bindButton(this.buttonFunction);
   }
 
-  mouseEnterFunction = (type) => {
-    if(type === "mouse"){
-      if(this.mouseDown){
-        this.mouseEnterCount += 1;
-        this.binder.mouseEnterText.innerHTML = `mouseEnter ${this.mouseEnterCount}`;
-      }
-    }else{
+  mouseEnterFunction = () => {
+    if(this.mouseDown){
       this.mouseEnterCount += 1;
       this.binder.mouseEnterText.innerHTML = `mouseEnter ${this.mouseEnterCount}`;
     }
