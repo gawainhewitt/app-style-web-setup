@@ -16,7 +16,7 @@
         }
         bindMouseEnter(handler) {
           this.mouseEnter.addEventListener("mouseenter", () => {
-            handler();
+            handler("mouse");
           });
         }
         bindButton(handler) {
@@ -77,8 +77,14 @@
           this.eventBinder.bindTouchMove(this.#handleTouchMove);
           this.eventBinder.bindTouchCancel(this.#handleCancel);
         }
-        handleMouseEnter = () => {
-          if (this.mouseDown) {
+        handleMouseEnter = (type) => {
+          console.log(type);
+          if (type === "mouse") {
+            if (this.mouseDown) {
+              this.mouseEnterCount += 1;
+              this.eventBinder.mouseEnterText.innerHTML = `mouseEnter ${this.mouseEnterCount}`;
+            }
+          } else {
             this.mouseEnterCount += 1;
             this.eventBinder.mouseEnterText.innerHTML = `mouseEnter ${this.mouseEnterCount}`;
           }
@@ -131,7 +137,7 @@
               console.log("can't figure out which touch to continue");
             }
           }
-          this.coolStuffHappens.showElement(this.ongoingTouches);
+          this.#showElement(this.ongoingTouches);
         };
         #handleCancel = (e) => {
           e.preventDefault();
@@ -154,6 +160,16 @@
           }
           return -1;
         };
+        #showElement = () => {
+          console.log("we got to showElement");
+          for (let i = 0; i < this.ongoingTouches.length; i++) {
+            let el = document.elementFromPoint(this.ongoingTouches[i].clientX, this.ongoingTouches[i].clientY);
+            console.log(`element = ${el.id}`);
+            if (el.id === "mouseEnterText") {
+              this.handleMouseEnter("touch");
+            }
+          }
+        };
       };
       module.exports = EventHandlers2;
     }
@@ -165,13 +181,6 @@
       var CoolStuffHappens2 = class {
         constructor() {
         }
-        showElement = (ongoingTouches) => {
-          console.log("we got to showElement");
-          for (let i = 0; i < ongoingTouches.length; i++) {
-            let el = document.elementFromPoint(ongoingTouches[i].clientX, ongoingTouches[i].clientY);
-            console.log(`element = ${el.id}`);
-          }
-        };
       };
       module.exports = CoolStuffHappens2;
     }

@@ -9,7 +9,7 @@ class EventBinders {
 
   bindMouseEnter(handler) {
     this.mouseEnter.addEventListener('mouseenter', () => {
-      handler();
+      handler("mouse");
     })
   }
   

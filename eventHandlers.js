@@ -18,11 +18,18 @@ class EventHandlers {
     this.eventBinder.bindTouchCancel(this.#handleCancel);
   }
 
-  handleMouseEnter = () => {
-    if(this.mouseDown){
+  handleMouseEnter = (type) => {
+    console.log(type);
+    if(type === "mouse"){
+      if(this.mouseDown){
+        this.mouseEnterCount += 1;
+        this.eventBinder.mouseEnterText.innerHTML = `mouseEnter ${this.mouseEnterCount}`;
+      }
+    }else{
       this.mouseEnterCount += 1;
       this.eventBinder.mouseEnterText.innerHTML = `mouseEnter ${this.mouseEnterCount}`;
     }
+    
   }
   
   buttonFunction = () => {
@@ -83,7 +90,7 @@ class EventHandlers {
         console.log("can't figure out which touch to continue");
       }
     }
-    this.coolStuffHappens.showElement(this.ongoingTouches);
+    this.#showElement(this.ongoingTouches);
   }
 
   #handleCancel = (e) => { 
@@ -109,6 +116,17 @@ class EventHandlers {
       }
     }
     return -1;    // not found
+  }
+
+  #showElement = () => {
+    console.log("we got to showElement");
+    for(let i = 0; i < this.ongoingTouches.length; i++){
+      let el = document.elementFromPoint(this.ongoingTouches[i].clientX, this.ongoingTouches[i].clientY);
+      console.log(`element = ${el.id}`)
+      if(el.id === "mouseEnterText"){
+        this.handleMouseEnter("touch");
+      }
+    }
   }
 }
 
