@@ -64,6 +64,7 @@
           this.eventBinder = eventBinder;
           this.coolStuffHappens = coolStuffHappens2;
           this.ongoingTouches = [];
+          this.touchesOnElements = [];
           this.mouseEnterCount = 0;
           this.buttonCount = 0;
           this.mouseDown = false;
@@ -122,8 +123,12 @@
             } else {
               console.log("can't figure out which touch to end");
             }
+            for (let j = 0; j < this.touchesOnElements.length; j++) {
+              if (this.touchesOnElements[j].touch_id === touches[i].identifier) {
+                this.touchesOnElements.splice(j, 1);
+              }
+            }
           }
-          console.log(this.ongoingTouches);
         };
         #handleTouchMove = (e) => {
           e.preventDefault();
@@ -161,14 +166,33 @@
           return -1;
         };
         #showElement = () => {
-          console.log("we got to showElement");
           for (let i = 0; i < this.ongoingTouches.length; i++) {
             let el = document.elementFromPoint(this.ongoingTouches[i].clientX, this.ongoingTouches[i].clientY);
             console.log(`element = ${el.id}`);
-            if (el.id === "mouseEnterText") {
-              this.handleMouseEnter("touch");
+            if (this.#isNewTouchOnElement(i, el.id)) {
+              if (el.id === "mouseEnterText") {
+                this.handleMouseEnter("touch");
+              }
             }
           }
+        };
+        #isNewTouchOnElement = (idx, el_id) => {
+          console.log(`length of this touches on elements = ${this.touchesOnElements.length}`);
+          for (let i = 0; i < this.touchesOnElements.length; i++) {
+            console.log(`touches on elements ${i} ${this.touchesOnElements[i]}`);
+            if (this.touchesOnElements[i].touch_id === this.ongoingTouches[idx].identifier) {
+              if (this.touchesOnElements[i].element_id === el_id) {
+                console.log("already on element");
+                return false;
+              } else {
+                console.log("same touch new element");
+                this.touchesOnElements.splice(i, 1, { touch_id: this.ongoingTouches[idx].identifier, element_id: el_id });
+                return true;
+              }
+            }
+          }
+          this.touchesOnElements.push({ touch_id: this.ongoingTouches[idx].identifier, element_id: el_id });
+          return true;
         };
       };
       module.exports = EventHandlers2;
