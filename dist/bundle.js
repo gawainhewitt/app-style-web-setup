@@ -12,7 +12,7 @@
           this.mouseEnter = document.querySelector("#mouseEnter");
           this.mouseEnterText = document.querySelector("#mouseEnterText");
           this.button = document.querySelector("#button");
-          this.wrapper = document.querySelector("#wrapper");
+          this.middleBox = document.querySelector("#middle-box");
         }
         bindMouseEnter(handler) {
           this.mouseEnter.addEventListener("mouseenter", () => {
@@ -40,13 +40,16 @@
           });
         }
         bindTouchStart(handler) {
-          this.wrapper.addEventListener("touchstart", handler);
+          this.middleBox.addEventListener("touchstart", handler);
         }
         bindTouchEnd(handler) {
-          this.wrapper.addEventListener("touchend", handler);
+          this.middleBox.addEventListener("touchend", handler);
         }
         bindTouchMove(handler) {
-          this.wrapper.addEventListener("touchmove", handler);
+          this.middleBox.addEventListener("touchmove", handler);
+        }
+        bindTouchCancel(handler) {
+          this.middleBox.addEventListener("touchcancel", handler);
         }
       };
       module.exports = EventBinders2;
@@ -105,6 +108,7 @@
           this.eventBinder.bindTouchStart(this.#handleTouchStart);
           this.eventBinder.bindTouchEnd(this.#handleTouchEnd);
           this.eventBinder.bindTouchMove(this.#handleTouchMove);
+          this.eventBinder.bindTouchCancel(this.#handleCancel);
         }
         #handleTouchStart = (e) => {
           e.preventDefault();
@@ -112,7 +116,6 @@
           let touches = e.changedTouches;
           console.log(touches);
           this.ongoingTouches.push(this.#copyTouch(touches[0]));
-          console.log(this.ongoingTouches);
         };
         #handleTouchEnd = (e) => {
           e.preventDefault();
@@ -141,6 +144,15 @@
             } else {
               console.log("can't figure out which touch to continue");
             }
+          }
+        };
+        #handleCancel = (e) => {
+          e.preventDefault();
+          console.log("touchcancel.");
+          let touches = e.changedTouches;
+          for (let i = 0; i < touches.length; i++) {
+            let idx = this.ongoingTouchIndexById(touches[i].identifier);
+            this.ongoingTouches.splice(idx, 1);
           }
         };
         #copyTouch({ identifier, clientX, clientY }) {

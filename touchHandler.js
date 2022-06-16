@@ -7,6 +7,7 @@ class TouchHandler {
     this.eventBinder.bindTouchStart(this.#handleTouchStart);
     this.eventBinder.bindTouchEnd(this.#handleTouchEnd);
     this.eventBinder.bindTouchMove(this.#handleTouchMove);
+    this.eventBinder.bindTouchCancel(this.#handleCancel);
   }
 
   #handleTouchStart = (e) => {
@@ -47,6 +48,17 @@ class TouchHandler {
       } else { // no match
         console.log("can't figure out which touch to continue");
       }
+    }
+  }
+
+  #handleCancel = (e) => { 
+    e.preventDefault();  
+    console.log("touchcancel."); 
+    let touches = e.changedTouches; 
+  
+    for (let i = 0; i < touches.length; i++) {
+      let idx = this.ongoingTouchIndexById(touches[i].identifier); //call a function that will compare this touch against the list and assign the return to idx
+      this.ongoingTouches.splice(idx, 1);  // remove it; we're done
     }
   }
 
