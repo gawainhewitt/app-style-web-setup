@@ -28,7 +28,7 @@ body{
   background: cyan;
 }
 
-.middle-box{
+#middle-box{
   /* we are using vh for a fixed knowable height relative to the window. Therefore :root, html and body % settings are irrelevant */
   height: 40vh;
   display: flex;
