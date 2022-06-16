@@ -15,10 +15,7 @@
         }
         bindMouseEnter(handler) {
           this.mouseEnter.addEventListener("mouseenter", () => {
-            handler("mouse");
-          });
-          this.mouseEnter.addEventListener("touchstart", () => {
-            handler("touch");
+            handler();
           });
         }
         bindButton(handler) {
@@ -61,13 +58,8 @@
           this.binder.bindMouseUp(this.registerMouseUp);
           this.binder.bindButton(this.buttonFunction);
         }
-        mouseEnterFunction = (type) => {
-          if (type === "mouse") {
-            if (this.mouseDown) {
-              this.mouseEnterCount += 1;
-              this.binder.mouseEnterText.innerHTML = `mouseEnter ${this.mouseEnterCount}`;
-            }
-          } else {
+        mouseEnterFunction = () => {
+          if (this.mouseDown) {
             this.mouseEnterCount += 1;
             this.binder.mouseEnterText.innerHTML = `mouseEnter ${this.mouseEnterCount}`;
           }
