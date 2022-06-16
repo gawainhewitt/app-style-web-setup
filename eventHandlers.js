@@ -1,7 +1,8 @@
 class EventHandlers {
   
-  constructor(eventBinder) {
+  constructor(eventBinder, coolStuffHappens) {
     this.eventBinder = eventBinder;
+    this.coolStuffHappens = coolStuffHappens;
     this.ongoingTouches = [];
     this.mouseEnterCount = 0;
     this.buttonCount = 0;
@@ -77,13 +78,12 @@ class EventHandlers {
       let idx = this.#ongoingTouchIndexById(touches[i].identifier); 
       if (idx >= 0) { // did we get a match?
         this.ongoingTouches.splice(idx, 1, this.#copyTouch(touches[i]));
-        let el = document.elementFromPoint(this.ongoingTouches[idx].clientX, this.ongoingTouches[idx].clientY);
-        console.log(`element = ${el.id}`)
         // console.log(this.#copyTouch(touches[i]));  
       } else { // no match
         console.log("can't figure out which touch to continue");
       }
     }
+    this.coolStuffHappens.showElement(this.ongoingTouches);
   }
 
   #handleCancel = (e) => { 

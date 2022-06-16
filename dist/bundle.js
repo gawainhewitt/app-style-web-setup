@@ -60,8 +60,9 @@
   var require_eventHandlers = __commonJS({
     "eventHandlers.js"(exports, module) {
       var EventHandlers2 = class {
-        constructor(eventBinder) {
+        constructor(eventBinder, coolStuffHappens2) {
           this.eventBinder = eventBinder;
+          this.coolStuffHappens = coolStuffHappens2;
           this.ongoingTouches = [];
           this.mouseEnterCount = 0;
           this.buttonCount = 0;
@@ -126,12 +127,11 @@
             let idx = this.#ongoingTouchIndexById(touches[i].identifier);
             if (idx >= 0) {
               this.ongoingTouches.splice(idx, 1, this.#copyTouch(touches[i]));
-              let el = document.elementFromPoint(this.ongoingTouches[idx].clientX, this.ongoingTouches[idx].clientY);
-              console.log(`element = ${el.id}`);
             } else {
               console.log("can't figure out which touch to continue");
             }
           }
+          this.coolStuffHappens.showElement(this.ongoingTouches);
         };
         #handleCancel = (e) => {
           e.preventDefault();
@@ -159,9 +159,29 @@
     }
   });
 
+  // coolStuffHappens.js
+  var require_coolStuffHappens = __commonJS({
+    "coolStuffHappens.js"(exports, module) {
+      var CoolStuffHappens2 = class {
+        constructor() {
+        }
+        showElement = (ongoingTouches) => {
+          console.log("we got to showElement");
+          for (let i = 0; i < ongoingTouches.length; i++) {
+            let el = document.elementFromPoint(ongoingTouches[i].clientX, ongoingTouches[i].clientY);
+            console.log(`element = ${el.id}`);
+          }
+        };
+      };
+      module.exports = CoolStuffHappens2;
+    }
+  });
+
   // index.js
   var EventBinders = require_eventBinders();
   var EventHandlers = require_eventHandlers();
+  var CoolStuffHappens = require_coolStuffHappens();
   var eventBinders = new EventBinders();
-  var eventHandlers = new EventHandlers(eventBinders);
+  var coolStuffHappens = new CoolStuffHappens();
+  var eventHandlers = new EventHandlers(eventBinders, coolStuffHappens);
 })();
