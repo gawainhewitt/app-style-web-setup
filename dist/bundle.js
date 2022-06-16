@@ -15,7 +15,10 @@
         }
         bindMouseEnter(handler) {
           this.mouseEnter.addEventListener("mouseenter", () => {
-            handler();
+            handler("mouse");
+          });
+          this.mouseEnter.addEventListener("touchstart", () => {
+            handler("touch");
           });
         }
         bindButton(handler) {
@@ -38,18 +41,6 @@
             handler(e);
           });
         }
-        bindTouchStart(handler) {
-          document.addEventListener("touchstart", handler);
-        }
-        bindTouchEnd(handler) {
-          document.addEventListener("touchend", handler);
-        }
-        bindTouchCancel(handler) {
-          document.addEventListener("touchcancel", handler);
-        }
-        bindTouchMove(handler) {
-          document.addEventListener("touchmove", handler);
-        }
       };
       module.exports = EventBinders2;
     }
@@ -70,8 +61,13 @@
           this.binder.bindMouseUp(this.registerMouseUp);
           this.binder.bindButton(this.buttonFunction);
         }
-        mouseEnterFunction = () => {
-          if (this.mouseDown) {
+        mouseEnterFunction = (type) => {
+          if (type === "mouse") {
+            if (this.mouseDown) {
+              this.mouseEnterCount += 1;
+              this.binder.mouseEnterText.innerHTML = `mouseEnter ${this.mouseEnterCount}`;
+            }
+          } else {
             this.mouseEnterCount += 1;
             this.binder.mouseEnterText.innerHTML = `mouseEnter ${this.mouseEnterCount}`;
           }

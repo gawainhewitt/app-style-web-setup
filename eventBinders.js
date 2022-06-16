@@ -8,7 +8,10 @@ class EventBinders {
 
   bindMouseEnter(handler) {
     this.mouseEnter.addEventListener('mouseenter', () => {
-      handler();
+      handler("mouse");
+    })
+    this.mouseEnter.addEventListener('touchstart', () => {
+      handler("touch");
     })
   }
   
@@ -36,21 +39,21 @@ class EventBinders {
     })
   }
 
-  bindTouchStart(handler) {
-    document.addEventListener('touchstart', handler);
-  }
+  // bindTouchStart(handler) {
+  //   document.addEventListener('touchstart', handler);
+  // }
 
-  bindTouchEnd(handler) {
-    document.addEventListener('touchend', handler);
-  }
+  // bindTouchEnd(handler) {
+  //   document.addEventListener('touchend', handler);
+  // }
 
-  bindTouchCancel(handler) {
-    document.addEventListener('touchcancel', handler);
-  }
+  // bindTouchCancel(handler) {
+  //   document.addEventListener('touchcancel', handler);
+  // }
 
-  bindTouchMove(handler) {
-    document.addEventListener('touchmove', handler);
-  }
+  // bindTouchMove(handler) {
+  //   document.addEventListener('touchmove', handler);
+  // }
 }
 
 module.exports = EventBinders;
